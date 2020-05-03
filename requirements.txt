@@ -1,0 +1,5 @@
+# Pip -r requirements.txt
+
+PyAudio
+SpeechRecognition
+discord.py
