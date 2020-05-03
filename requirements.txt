@@ -1,5 +1,6 @@
-# Pip -r requirements.txt
+# Pip install -r requirements.txt
 
 PyAudio
 SpeechRecognition
 discord.py
+PyNaCl

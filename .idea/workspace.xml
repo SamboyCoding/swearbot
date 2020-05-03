@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="baeca940-2558-47e7-809a-780a5dfbf325" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/SpeechRecognisingSink.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_data/692038721888845905/out.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BotMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/BotMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1bPkb9Y0SMZH8esHSjF4P6CgLV7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="BotMain" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="swearbot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DISCORD_TOKEN" value="NzA2NjA1MTYyMzIzNTA5MzE4.Xq885A.xwOvg-XlkoZNVey0VqE73lbkirQ" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BotMain.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="baeca940-2558-47e7-809a-780a5dfbf325" name="Default Changelist" comment="" />
+      <created>1588541184795</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1588541184795</updated>
+      <workItem from="1588541186761" duration="354000" />
+      <workItem from="1588541559202" duration="5832000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="418" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588543746144">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="418" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1588543746144" />
+    <state x="662" y="327" width="586" height="423" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588546793112">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="662" y="327" width="586" height="423" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1588546793112" />
+    <state x="768" y="254" width="374" height="569" key="#com.intellij.ide.util.MemberChooser" timestamp="1588547304750">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="768" y="254" width="374" height="569" key="#com.intellij.ide.util.MemberChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1588547304750" />
+    <state width="1918" height="620" key="DebuggerActiveHint" timestamp="1588547089484">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1918" height="620" key="DebuggerActiveHint/0.27.1920.1053@0.27.1920.1053" timestamp="1588547089484" />
+    <state x="798" y="119" width="314" height="840" key="EnvironmentVariablesDialog" timestamp="1588543745180">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="798" y="119" width="314" height="840" key="EnvironmentVariablesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1588543745180" />
+    <state width="1874" height="278" key="GridCell.Tab.0.bottom" timestamp="1588547386506">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="278" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1588547386506" />
+    <state width="1874" height="278" key="GridCell.Tab.0.center" timestamp="1588547386506">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="278" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1588547386506" />
+    <state width="1874" height="278" key="GridCell.Tab.0.left" timestamp="1588547386506">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="278" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1588547386506" />
+    <state width="1874" height="278" key="GridCell.Tab.0.right" timestamp="1588547386506">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="278" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1588547386506" />
+    <state width="1874" height="343" key="GridCell.Tab.1.bottom" timestamp="1588547158842">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="343" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1588547158842" />
+    <state width="1874" height="343" key="GridCell.Tab.1.center" timestamp="1588547158842">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="343" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1588547158842" />
+    <state width="1874" height="343" key="GridCell.Tab.1.left" timestamp="1588547158841">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="343" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1588547158841" />
+    <state width="1874" height="343" key="GridCell.Tab.1.right" timestamp="1588547158842">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1874" height="343" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1588547158842" />
+    <state x="449" y="170" width="1022" height="737" key="SettingsEditor" timestamp="1588543452855">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="449" y="170" width="1022" height="737" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1588543452855" />
+    <state x="689" y="265" width="654" height="540" key="StructurePopup" timestamp="1588544913844">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="689" y="265" width="654" height="540" key="StructurePopup/0.27.1920.1053@0.27.1920.1053" timestamp="1588544913844" />
+    <state x="623" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1588545133703">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="623" y="231" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1588545133703" />
+    <state x="685" y="420" width="540" height="237" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1588541616814">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="685" y="420" width="540" height="237" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1588541616814" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swearbot$BotMain.coverage" NAME="BotMain Coverage Results" MODIFIED="1588547386498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
