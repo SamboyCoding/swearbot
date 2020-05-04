@@ -32,4 +32,8 @@ swears = {
     "piss": "piss",
     "ass": "ass",
     "hell": "hell",
+    "damn": "damn",
+    "dammit": "dammit",
+    "damnit": "damnit",  # Because mallord can't spell lmao
+    "wtf": "wtf",
 }
