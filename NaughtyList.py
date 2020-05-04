@@ -37,6 +37,6 @@ class NaughtyList:
     def get_top_10(self):
         cur = self.db.cursor()
         cur.execute("SELECT * FROM swear_count ORDER BY count DESC LIMIT 10")
-        results: List[Tuple[int]] = cur.fetchall()
+        results: List[Tuple[int, int]] = cur.fetchall()
         return results
 
