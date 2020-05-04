@@ -59,16 +59,16 @@ class BotClient(discord.Client):
             text += "```\n"
             text += "**The total pool therefore sits at about £" + str(better_round(total_pool, 2)) + "**"
             await message.channel.send(text)
-        elif content.startswith("--addswears") and len(content.split(" ")) > 2:
+        elif content.startswith("--addswears") and len(
+                content.split(" ")) > 2 and message.author.id == 102450956045668352:  # Thas me
             if len(message.mentions) > 0:
                 target: discord.Member = message.mentions[0]
                 amount = int(content.split(" ")[2])
                 initial = NaughtyList.instance.get_user_score(target)
                 new = initial + amount
                 NaughtyList.instance.set_user_score(target, new)
-                await message.channel.send("Bumped " + target.mention + "'s score from " + str(initial) + " to " + str(new) + ". Tut-tut.")
-
-
+                await message.channel.send(
+                    "Bumped " + target.mention + "'s score from " + str(initial) + " to " + str(new) + ". Tut-tut.")
 
         swear_count = 0
         for word in content.split(" "):
