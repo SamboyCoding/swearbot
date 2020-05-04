@@ -30,7 +30,7 @@ class UserHandler:
 
     async def receive_silence(self):
         self.consecutive_silence_count += 1
-        if self.consecutive_silence_count == 15:
+        if self.consecutive_silence_count == 30:
             # print("Received 15 silence packets for", self.user, "assuming they're done talking and flushing",
             #       len(self.buffer), "bytes to file")
             self.buffer += bytes(3840)  # Add some padding
