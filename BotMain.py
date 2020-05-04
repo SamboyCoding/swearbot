@@ -8,8 +8,6 @@ from NaughtyList import NaughtyList
 from Swears import swears
 
 
-# Speech recognition API stuffs: https://github.com/Uberi/speech_recognition/blob/master/speech_recognition/__main__.py
-
 class BotClient(discord.Client):
     def __init__(self, **options):
         super().__init__(**options)
@@ -26,6 +24,7 @@ class BotClient(discord.Client):
                 discord.opus.load_opus("libopus.so.0")
             else:
                 discord.opus.load_opus("libopus-0.x64.dll")
+            print("Opus loaded.")
         for guild in self.guilds:
             await self.work_out_which_vc_to_join(guild)
 
