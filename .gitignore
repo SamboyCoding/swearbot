@@ -147,3 +147,4 @@ cython_debug/
 .idea/speechrecognition.iml
 
 user_data/*
+.idea/
