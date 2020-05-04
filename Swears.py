@@ -29,4 +29,7 @@ swears = {
     # Again, ty
     "heck": "heck",
     "darn": "darn",
+    "piss": "piss",
+    "ass": "ass",
+    "hell": "hell",
 }
