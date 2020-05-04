@@ -1,11 +1,16 @@
 from typing import Tuple, Optional, List
-
+import math
 import discord
 import os
 import speech_recognition as sr
 from SpeechRecognisingSink import SpeechRecognisingSink
 from NaughtyList import NaughtyList
 from Swears import swears
+
+
+def better_round(value: float, decimals: int):
+    decimal_coeff = 10 ** decimals
+    return math.floor(value * decimal_coeff + 0.5) / decimal_coeff
 
 
 class BotClient(discord.Client):
@@ -31,18 +36,21 @@ class BotClient(discord.Client):
     # enddef
 
     async def on_message(self, message: discord.Message):
-        if message.author == self.user:
+        if message.author.bot:
             return
 
         if message.content == "--jar":
             score = NaughtyList.instance.get_user_score(message.author)
-            await message.channel.send("You've sworn " + str(score) + " times.")
+            await message.channel.send(
+                "You've sworn " + str(score) + " times, and therefore owe the swear jar approximately £" +
+                str(better_round(score * 0.069, 2))
+            )
         elif message.content == "--top":
             results = NaughtyList.instance.get_top_10()
             text = "**Naughtiest Users:**\n```"
             for (uid, count) in results:
                 username = self.get_user(uid).name
-                text += username + " - " + str(count) + "\n"
+                text += username + " - " + str(count) + " - owes approx £" + str(better_round(count * 0.069, 2)) + "\n"
             text += "```"
             await message.channel.send(text)
 
