@@ -1,9 +1,11 @@
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
 
 import discord
 import os
 import speech_recognition as sr
 from SpeechRecognisingSink import SpeechRecognisingSink
+from NaughtyList import NaughtyList
+from Swears import swears
 
 
 # Speech recognition API stuffs: https://github.com/Uberi/speech_recognition/blob/master/speech_recognition/__main__.py
@@ -13,12 +15,17 @@ class BotClient(discord.Client):
         super().__init__(**options)
         print("Initializing SR...")
         self.r = sr.Recognizer()
+        NaughtyList.instance = NaughtyList()
         print("Connecting to discord...")
 
     async def on_ready(self):
         print("Logged on as", self.user)
         if not discord.opus.is_loaded():
-            discord.opus.load_opus("libopus.so.0")
+            print("Opus has not yet been loaded, manually loading it...")
+            if os.name == 'posix':
+                discord.opus.load_opus("libopus.so.0")
+            else:
+                discord.opus.load_opus("libopus-0.x64.dll")
         for guild in self.guilds:
             await self.work_out_which_vc_to_join(guild)
 
@@ -28,9 +35,24 @@ class BotClient(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content == "ping":
-            await message.channel.send("pong")
+        if message.content == "--jar":
+            score = NaughtyList.instance.get_user_score(message.author)
+            await message.channel.send("You've sworn " + str(score) + " times.")
         # endif
+
+        content: str = message.content
+        swear_count = 0
+        for word in content.split(" "):
+            key = word.lower().strip("!?.,")
+            if key in swears:
+                swear_count += 1
+        # endfor
+
+        if swear_count > 0:
+            original = NaughtyList.instance.get_user_score(message.author)
+            new = original + swear_count
+            NaughtyList.instance.set_user_score(message.author, new)
+            await message.add_reaction("🤬")
 
     # enddef
 
@@ -57,11 +79,13 @@ class BotClient(discord.Client):
         # Work out which vc has the most people in it
         vc = await self.get_vc_for_guild(guild)
         for channel in guild.voice_channels:
-            count = len(channel.members)
+            members: List[discord.Member] = []
 
-            # If we're in this channel, take one from its count
-            if vc and vc.channel.id == channel.id:
-                count -= 1
+            for mem in channel.members:
+                if not mem.bot:
+                    members.append(mem)
+
+            count = len(members)
 
             if count > max_tuple[0]:
                 max_tuple = (count, channel)
@@ -75,6 +99,8 @@ class BotClient(discord.Client):
             # already in the right channel
             await self.update_listeners(guild)
             return
+        elif vc:
+            await vc.disconnect()
 
         await max_tuple[1].connect()
         await self.update_listeners(guild)

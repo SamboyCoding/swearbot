@@ -2,5 +2,6 @@
 
 PyAudio
 SpeechRecognition
-discord.py
+discord.py@git+https://github.com/imayhaveborkedit/discord.py#egg=discord.py
 PyNaCl
+wheel
