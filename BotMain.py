@@ -48,10 +48,14 @@ class BotClient(discord.Client):
         elif message.content == "--top":
             results = NaughtyList.instance.get_top_10()
             text = "**Naughtiest Users:**\n```"
+            total_pool = 0.0
             for (uid, count) in results:
                 username = self.get_user(uid).name
-                text += username + " - " + str(count) + " - owes approx £" + str(better_round(count * 0.069, 2)) + "\n"
-            text += "```"
+                owes = count * 0.069
+                text += username + " - " + str(count) + " - owes approx £" + str(better_round(owes, 2)) + "\n"
+                total_pool += owes
+            text += "```\n"
+            text += "**The total pool therefore sits at about £" + str(better_round(total_pool, 2)) + "**"
             await message.channel.send(text)
 
         content: str = message.content
