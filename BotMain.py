@@ -37,7 +37,14 @@ class BotClient(discord.Client):
         if message.content == "--jar":
             score = NaughtyList.instance.get_user_score(message.author)
             await message.channel.send("You've sworn " + str(score) + " times.")
-        # endif
+        elif message.content == "--top":
+            results = NaughtyList.instance.get_top_10()
+            text = "**Naughtiest Users:**\n```"
+            for (uid, count) in results:
+                username = self.get_user(uid).name
+                text += username + " - " + str(count) + "\n"
+            text += "```"
+            await message.channel.send(text)
 
         content: str = message.content
         swear_count = 0
