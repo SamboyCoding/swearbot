@@ -13,6 +13,7 @@ swears = {
     "shit": "shit",
     # Seriously what
     "shity": "shitty",
+    "shitty": "shitty",
     "crap": "crap",
     "b****": "bitch",
     "bitch": "bitch",
@@ -21,7 +22,7 @@ swears = {
     "cock": "cock",
     "dick": "dick",
     "bastard": "bastard",
-    #Thanks ty
+    # Thanks ty
     "boobies": "boobies",
     "tits": "tits",
     "cunt": "cunt",
@@ -36,4 +37,10 @@ swears = {
     "dammit": "dammit",
     "damnit": "damnit",  # Because mallord can't spell lmao
     "wtf": "wtf",
+    # Mallord found some loopholes so I'll have to close them
+    "shithead": "shithead",
+    "shitshow": "shitshow",
+    "shitfucker": "shitfucker",  # What does this actually mean? TODO: Ask mallord.
+    "wank": "wank",
+    "pillock": "pillock"
 }

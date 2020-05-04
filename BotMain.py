@@ -39,13 +39,15 @@ class BotClient(discord.Client):
         if message.author.bot:
             return
 
-        if message.content == "--jar":
+        content: str = message.content
+
+        if content == "--jar":
             score = NaughtyList.instance.get_user_score(message.author)
             await message.channel.send(
                 "You've sworn " + str(score) + " times, and therefore owe the swear jar approximately £" +
                 str(better_round(score * 0.069, 2))
             )
-        elif message.content == "--top":
+        elif content == "--top":
             results = NaughtyList.instance.get_top_10()
             text = "**Naughtiest Users:**\n```"
             total_pool = 0.0
@@ -57,8 +59,17 @@ class BotClient(discord.Client):
             text += "```\n"
             text += "**The total pool therefore sits at about £" + str(better_round(total_pool, 2)) + "**"
             await message.channel.send(text)
+        elif content.startswith("--addswears") and len(content.split(" ")) > 2:
+            if len(message.mentions) > 0:
+                target: discord.Member = message.mentions[0]
+                amount = int(content.split(" ")[2])
+                initial = NaughtyList.instance.get_user_score(target)
+                new = initial + amount
+                NaughtyList.instance.set_user_score(target, new)
+                await message.channel.send("Bumped " + target.mention + "'s score from " + str(initial) + " to " + str(new) + ". Tut-tut.")
 
-        content: str = message.content
+
+
         swear_count = 0
         for word in content.split(" "):
             key = word.lower().strip("!?.,")
