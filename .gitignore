@@ -148,3 +148,4 @@ cython_debug/
 
 user_data/*
 .idea/
+naughty_list.sqlite
