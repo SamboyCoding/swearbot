@@ -95,11 +95,11 @@ class BotClient(discord.Client):
 
         old_vc = await self.get_vc_for_guild(member.guild)
         our_after = await self.work_out_which_vc_to_join(member.guild)
-        if our_after is None:
-            return
 
         old_vc: discord.VoiceClient = old_vc
-        our_before: discord.VoiceChannel = old_vc.channel
+        our_before: Optional[discord.VoiceChannel] = None
+        if old_vc is not None:
+            our_before = old_vc.channel
 
         guild: discord.Guild = member.guild
         logging_channel: discord.TextChannel = guild.get_channel(Constants.vc_channel_id)
@@ -111,13 +111,13 @@ class BotClient(discord.Client):
                 if our_after is not None:
                     await logging_channel.send(
                         "**===" + member.display_name + " left " + their_before.channel.name + " so I moved to " + our_after.name + "===**")
-            elif their_before.channel is not None and our_after is None and their_after.channel is None:
-                await logging_channel.send(
-                    "**===" + member.display_name + " left " + their_before.channel.name + " so I left it too, as it's now empty===**")
+                else:
+                    await logging_channel.send(
+                        "**===" + member.display_name + " left " + their_before.channel.name + " so I left it too, as it's now empty===**")
             elif their_before.channel is None and their_after.channel == our_after:
                 # User joined our new channel - it's their fault we joined
                 await logging_channel.send(
-                    "**===" + member.display_name + " joined " + their_after.channel.name + " so I joined them.")
+                    "**===" + member.display_name + " joined " + their_after.channel.name + " so I joined them.===**")
             elif their_before.channel is not None and their_after.channel == our_after:
                 # They moved from one to another so we did too
                 await logging_channel.send(
