@@ -130,59 +130,59 @@ class BotClient(discord.Client):
             await logging_channel.send("**-" + member.display_name + " left channel " + new_channel.name + "-**")
 
 
-async def leave_vc_for_guild(self, guild: discord.Guild):
-    vc = await self.get_vc_for_guild(guild)
-    if vc:
-        await vc.disconnect()
+    async def leave_vc_for_guild(self, guild: discord.Guild):
+        vc = await self.get_vc_for_guild(guild)
+        if vc:
+            await vc.disconnect()
 
 
-async def get_vc_for_guild(self, guild: discord.Guild) -> Optional[discord.VoiceClient]:
-    for voice_client in self.voice_clients:
-        if voice_client.channel.guild.id == guild.id:
-            return voice_client
-    return None
-
-
-async def work_out_which_vc_to_join(self, guild: discord.Guild) -> Optional[discord.VoiceChannel]:
-    max_tuple: Tuple[int, Optional[discord.VoiceChannel]] = (0, None)
-
-    # Work out which vc has the most people in it
-    vc = await self.get_vc_for_guild(guild)
-    for channel in guild.voice_channels:
-        members: List[discord.Member] = []
-
-        for mem in channel.members:
-            if not mem.bot:
-                members.append(mem)
-
-        count = len(members)
-
-        if count > max_tuple[0]:
-            max_tuple = (count, channel)
-
-    if max_tuple[0] == 0:
-        # Nobody in any vc, leave all.
-        await self.leave_vc_for_guild(guild)
+    async def get_vc_for_guild(self, guild: discord.Guild) -> Optional[discord.VoiceClient]:
+        for voice_client in self.voice_clients:
+            if voice_client.channel.guild.id == guild.id:
+                return voice_client
         return None
 
-    if vc and vc.channel.id == max_tuple[1].id:
-        # already in the right channel
+
+    async def work_out_which_vc_to_join(self, guild: discord.Guild) -> Optional[discord.VoiceChannel]:
+        max_tuple: Tuple[int, Optional[discord.VoiceChannel]] = (0, None)
+
+        # Work out which vc has the most people in it
+        vc = await self.get_vc_for_guild(guild)
+        for channel in guild.voice_channels:
+            members: List[discord.Member] = []
+
+            for mem in channel.members:
+                if not mem.bot:
+                    members.append(mem)
+
+            count = len(members)
+
+            if count > max_tuple[0]:
+                max_tuple = (count, channel)
+
+        if max_tuple[0] == 0:
+            # Nobody in any vc, leave all.
+            await self.leave_vc_for_guild(guild)
+            return None
+
+        if vc and vc.channel.id == max_tuple[1].id:
+            # already in the right channel
+            await self.update_listeners(guild)
+            return max_tuple[1]
+        elif vc:
+            await vc.disconnect()
+
+        await max_tuple[1].connect()
         await self.update_listeners(guild)
         return max_tuple[1]
-    elif vc:
-        await vc.disconnect()
-
-    await max_tuple[1].connect()
-    await self.update_listeners(guild)
-    return max_tuple[1]
 
 
-async def update_listeners(self, guild: discord.Guild):
-    vc = await self.get_vc_for_guild(guild)
-    channel: discord.VoiceChannel = vc.channel
+    async def update_listeners(self, guild: discord.Guild):
+        vc = await self.get_vc_for_guild(guild)
+        channel: discord.VoiceChannel = vc.channel
 
-    if not vc.is_listening():
-        vc.listen(SpeechRecognisingSink(guild))
+        if not vc.is_listening():
+            vc.listen(SpeechRecognisingSink(guild))
 
 
 # endclass
