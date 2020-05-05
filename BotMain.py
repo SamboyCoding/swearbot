@@ -88,47 +88,48 @@ class BotClient(discord.Client):
 
     # enddef
 
-    async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
-                                    after: discord.VoiceState):
+    async def on_voice_state_update(self, member: discord.Member, their_before: discord.VoiceState,
+                                    their_after: discord.VoiceState):
         if member.bot:
             return
 
         old_vc = await self.get_vc_for_guild(member.guild)
-        new_channel = await self.work_out_which_vc_to_join(member.guild)
-        if new_channel is None:
+        our_after = await self.work_out_which_vc_to_join(member.guild)
+        if our_after is None:
             return
 
         old_vc: discord.VoiceClient = old_vc
+        our_before: discord.VoiceChannel = old_vc.channel
 
         guild: discord.Guild = member.guild
         logging_channel: discord.TextChannel = guild.get_channel(Constants.vc_channel_id)
 
-        if old_vc is None or old_vc.channel != new_channel:
+        if old_vc is None or our_before != our_after:
             # If WE have moved or joined a channel as a result of this update
-            if before.channel == new_channel and after.channel is None:
+            if their_before.channel == our_before and their_after.channel is None:
                 # User left channel and we moved to a more populated one (or left all of them)
-                if new_channel is not None:
+                if our_after is not None:
                     await logging_channel.send(
-                        "**===" + member.display_name + " left " + before.channel.name + " so I moved to " + new_channel.name + "===**")
-                else:
-                    await logging_channel.send(
-                        "**===" + member.display_name + " left " + before.channel.name + " so I left it too, as it's now empty===**")
-            elif before.channel is None and after.channel == new_channel:
+                        "**===" + member.display_name + " left " + their_before.channel.name + " so I moved to " + our_after.name + "===**")
+            elif their_before.channel is not None and our_after is None and their_after.channel is None:
+                await logging_channel.send(
+                    "**===" + member.display_name + " left " + their_before.channel.name + " so I left it too, as it's now empty===**")
+            elif their_before.channel is None and their_after.channel == our_after:
                 # User joined our new channel - it's their fault we joined
                 await logging_channel.send(
-                    "**===" + member.display_name + " joined " + after.channel.name + " so I joined them.")
-            elif before.channel is not None and after.channel == new_channel:
+                    "**===" + member.display_name + " joined " + their_after.channel.name + " so I joined them.")
+            elif their_before.channel is not None and their_after.channel == our_after:
                 # They moved from one to another so we did too
                 await logging_channel.send(
-                    "**===" + member.display_name + " moved from " + before.channel.name + " to " + after.channel.name
+                    "**===" + member.display_name + " moved from " + their_before.channel.name + " to " + their_after.channel.name
                     + ", making it the new most populous channel, so I followed them.===**"
                 )
-        elif before.channel != new_channel and after.channel == new_channel:
+        elif their_before.channel != our_after and their_after.channel == our_after:
             # If someone joined our channel
-            await logging_channel.send("**-" + member.display_name + " joined channel " + new_channel.name + "-**")
-        elif before.channel == new_channel and after.channel != new_channel:
+            await logging_channel.send("**-" + member.display_name + " joined channel " + our_after.name + "-**")
+        elif their_before.channel == our_after and their_after.channel != our_after:
             # Someone left our channel
-            await logging_channel.send("**-" + member.display_name + " left channel " + new_channel.name + "-**")
+            await logging_channel.send("**-" + member.display_name + " left channel " + our_after.name + "-**")
 
 
     async def leave_vc_for_guild(self, guild: discord.Guild):
