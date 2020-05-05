@@ -5,10 +5,10 @@ import os
 import speech_recognition as sr
 from Swears import swears
 from NaughtyList import NaughtyList
+from Constants import Constants
 
 
 class UserHandler:
-    vc_channel_id = 706802399158730792
 
     def __init__(self, user: discord.Member, base_dir: str):
         guild: discord.Guild = user.guild
@@ -65,7 +65,7 @@ class UserHandler:
                 # endfor
 
                 guild: discord.Guild = self.user.guild
-                channel: discord.TextChannel = guild.get_channel(UserHandler.vc_channel_id)
+                channel: discord.TextChannel = guild.get_channel(Constants.vc_channel_id)
 
                 naughty_list: NaughtyList = NaughtyList.instance
                 score = naughty_list.get_user_score(self.user)

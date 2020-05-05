@@ -1,8 +1,10 @@
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional, List, Coroutine
 import math
 import discord
 import os
 import speech_recognition as sr
+
+from Constants import Constants
 from SpeechRecognisingSink import SpeechRecognisingSink
 from NaughtyList import NaughtyList
 from Swears import swears
@@ -85,61 +87,102 @@ class BotClient(discord.Client):
 
     # enddef
 
-    async def on_voice_state_update(self, member: discord.Member, before, after):
+    async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
+                                    after: discord.VoiceState):
         if member.bot:
             return
 
-        await self.work_out_which_vc_to_join(member.guild)
+        old_vc = await self.get_vc_for_guild(member.guild)
+        new_channel = await self.work_out_which_vc_to_join(member.guild)
+        if new_channel is None:
+            return
 
-    async def leave_vc_for_guild(self, guild: discord.Guild):
-        vc = await self.get_vc_for_guild(guild)
-        if vc:
-            await vc.disconnect()
+        old_vc: discord.VoiceClient = old_vc
 
-    async def get_vc_for_guild(self, guild: discord.Guild) -> Optional[discord.VoiceClient]:
-        for voice_client in self.voice_clients:
-            if voice_client.channel.guild.id == guild.id:
-                return voice_client
+        guild: discord.Guild = member.guild
+        logging_channel: discord.TextChannel = guild.get_channel(Constants.vc_channel_id)
+
+        if old_vc is None or old_vc.channel != new_channel:
+            # If WE have moved or joined a channel as a result of this update
+            if before.channel == new_channel and after.channel is None:
+                # User left channel and we moved to a more populated one (or left all of them)
+                if new_channel is not None:
+                    await logging_channel.send(
+                        "**===" + member.display_name + " left " + before.channel.name + " so I moved to " + new_channel.name + "===**")
+                else:
+                    await logging_channel.send(
+                        "**===" + member.display_name + " left " + before.channel.name + " so I left it too, as it's now empty===**")
+            elif before.channel is None and after.channel == new_channel:
+                # User joined our new channel - it's their fault we joined
+                await logging_channel.send(
+                    "**===" + member.display_name + " joined " + after.channel.name + " so I joined them.")
+            elif before.channel is not None and after.channel == new_channel:
+                # They moved from one to another so we did too
+                await logging_channel.send(
+                    "**===" + member.display_name + " moved from " + before.channel.name + " to " + after.channel.name
+                    + ", making it the new most populous channel, so I followed them.===**"
+                )
+        elif before.channel != new_channel and after.channel == new_channel:
+            # If someone joined our channel
+            await logging_channel.send("**-" + member.display_name + " joined channel " + new_channel.name + "-**")
+        elif before.channel == new_channel and after.channel != new_channel:
+            # Someone left our channel
+            await logging_channel.send("**-" + member.display_name + " left channel " + new_channel.name + "-**")
+
+
+async def leave_vc_for_guild(self, guild: discord.Guild):
+    vc = await self.get_vc_for_guild(guild)
+    if vc:
+        await vc.disconnect()
+
+
+async def get_vc_for_guild(self, guild: discord.Guild) -> Optional[discord.VoiceClient]:
+    for voice_client in self.voice_clients:
+        if voice_client.channel.guild.id == guild.id:
+            return voice_client
+    return None
+
+
+async def work_out_which_vc_to_join(self, guild: discord.Guild) -> Optional[discord.VoiceChannel]:
+    max_tuple: Tuple[int, Optional[discord.VoiceChannel]] = (0, None)
+
+    # Work out which vc has the most people in it
+    vc = await self.get_vc_for_guild(guild)
+    for channel in guild.voice_channels:
+        members: List[discord.Member] = []
+
+        for mem in channel.members:
+            if not mem.bot:
+                members.append(mem)
+
+        count = len(members)
+
+        if count > max_tuple[0]:
+            max_tuple = (count, channel)
+
+    if max_tuple[0] == 0:
+        # Nobody in any vc, leave all.
+        await self.leave_vc_for_guild(guild)
         return None
 
-    async def work_out_which_vc_to_join(self, guild: discord.Guild):
-        max_tuple: Tuple[int, Optional[discord.VoiceChannel]] = (0, None)
-
-        # Work out which vc has the most people in it
-        vc = await self.get_vc_for_guild(guild)
-        for channel in guild.voice_channels:
-            members: List[discord.Member] = []
-
-            for mem in channel.members:
-                if not mem.bot:
-                    members.append(mem)
-
-            count = len(members)
-
-            if count > max_tuple[0]:
-                max_tuple = (count, channel)
-
-        if max_tuple[0] == 0:
-            # Nobody in any vc, leave all.
-            await self.leave_vc_for_guild(guild)
-            return
-
-        if vc and vc.channel.id == max_tuple[1].id:
-            # already in the right channel
-            await self.update_listeners(guild)
-            return
-        elif vc:
-            await vc.disconnect()
-
-        await max_tuple[1].connect()
+    if vc and vc.channel.id == max_tuple[1].id:
+        # already in the right channel
         await self.update_listeners(guild)
+        return max_tuple[1]
+    elif vc:
+        await vc.disconnect()
 
-    async def update_listeners(self, guild: discord.Guild):
-        vc = await self.get_vc_for_guild(guild)
-        channel: discord.VoiceChannel = vc.channel
+    await max_tuple[1].connect()
+    await self.update_listeners(guild)
+    return max_tuple[1]
 
-        if not vc.is_listening():
-            vc.listen(SpeechRecognisingSink(guild))
+
+async def update_listeners(self, guild: discord.Guild):
+    vc = await self.get_vc_for_guild(guild)
+    channel: discord.VoiceChannel = vc.channel
+
+    if not vc.is_listening():
+        vc.listen(SpeechRecognisingSink(guild))
 
 
 # endclass
