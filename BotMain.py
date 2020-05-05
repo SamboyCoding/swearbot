@@ -53,8 +53,9 @@ class BotClient(discord.Client):
             results = NaughtyList.instance.get_top_10()
             text = "**Naughtiest Users:**\n```"
             total_pool = 0.0
+            guild: discord.Guild = message.guild
             for (uid, count) in results:
-                username = self.get_user(uid).name
+                username = guild.get_member(uid).display_name
                 owes = count * 0.069
                 text += username + " - " + str(count) + " - owes approx £" + str(better_round(owes, 2)) + "\n"
                 total_pool += owes
