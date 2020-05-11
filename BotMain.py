@@ -55,10 +55,12 @@ class BotClient(discord.Client):
             total_pool = 0.0
             guild: discord.Guild = message.guild
             for (uid, count) in results:
-                username = guild.get_member(uid).display_name
-                owes = count * 0.069
-                text += username + " - " + str(count) + " - owes approx £" + str(better_round(owes, 2)) + "\n"
-                total_pool += owes
+                user: discord.Member = guild.get_member(uid)
+                if user:
+                    username = user.display_name
+                    owes = count * 0.069
+                    text += username + " - " + str(count) + " - owes approx £" + str(better_round(owes, 2)) + "\n"
+                    total_pool += owes
             text += "```\n"
             text += "**The total pool therefore sits at about £" + str(better_round(total_pool, 2)) + "**"
             await message.channel.send(text)
