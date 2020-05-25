@@ -11,12 +11,14 @@ from Swears import swears
 
 
 def better_round(value: float, decimals: int):
+    """Utilise math.floor to more accurately round numbers."""
     decimal_coeff = 10 ** decimals
     return math.floor(value * decimal_coeff + 0.5) / decimal_coeff
 
 
 class BotClient(discord.Client):
     def __init__(self, **options):
+        """Initialise a discord client; create a new recogniser and naughty list database instance."""
         super().__init__(**options)
         print("Initializing SR...")
         self.r = sr.Recognizer()
@@ -24,6 +26,7 @@ class BotClient(discord.Client):
         print("Connecting to discord...")
 
     async def on_ready(self):
+        """Login and start discord Opus if not already started. Join relevant discord voice channel."""
         print("Logged on as", self.user)
         if not discord.opus.is_loaded():
             print("Opus has not yet been loaded, manually loading it...")
@@ -38,6 +41,13 @@ class BotClient(discord.Client):
     # enddef
 
     async def on_message(self, message: discord.Message):
+        """Carry out user commands and monitor text channels for swears by users.
+
+        --jar: Posts the authors current swear count and money owed.
+        --top: Posts the top ten server swearers.
+        --addswears (exclusive to Sam): Adds swears to a specific user.
+        profanic sentences are highlighted with the 'swear' emoji.
+        """
         if message.author.bot:
             return
 
@@ -92,6 +102,10 @@ class BotClient(discord.Client):
 
     async def on_voice_state_update(self, member: discord.Member, their_before: discord.VoiceState,
                                     their_after: discord.VoiceState):
+        """Update the bots channel based on the popularity of guild voice channels.
+
+        Posts messages in the vc_log guild channel to alert when it moves channel along with it's reason.
+        It also notifies users when a new user joins or moves voice channel."""
         if member.bot:
             return
 
@@ -135,12 +149,15 @@ class BotClient(discord.Client):
 
 
     async def leave_vc_for_guild(self, guild: discord.Guild):
+        """Find current voice channel then disconnect from it."""
         vc = await self.get_vc_for_guild(guild)
         if vc:
             await vc.disconnect()
 
 
     async def get_vc_for_guild(self, guild: discord.Guild) -> Optional[discord.VoiceClient]:
+        """Return current voice channel."""
+        # Ngl not entirely sure if that is it but seems right from context
         for voice_client in self.voice_clients:
             if voice_client.channel.guild.id == guild.id:
                 return voice_client
@@ -148,6 +165,9 @@ class BotClient(discord.Client):
 
 
     async def work_out_which_vc_to_join(self, guild: discord.Guild) -> Optional[discord.VoiceChannel]:
+        """Loop over all voice channels and connect to the channel with the most users.
+
+        Don't disconnect and reconnect if already in the right channel, rather update the audio recognition."""
         max_tuple: Tuple[int, Optional[discord.VoiceChannel]] = (0, None)
 
         # Work out which vc has the most people in it
@@ -182,6 +202,7 @@ class BotClient(discord.Client):
 
 
     async def update_listeners(self, guild: discord.Guild):
+        """If the bot is not listening to current voice channel start listening."""
         vc = await self.get_vc_for_guild(guild)
         channel: discord.VoiceChannel = vc.channel
 

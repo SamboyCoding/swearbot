@@ -13,6 +13,7 @@ class SpeechRecognisingSink(discord.AudioSink):
     # TODO: whole sentences at once with longer pauses? Either way, save to unique files, run detection, then del.
     # TODO: However, the actual receiving part works fine ;P
     def __init__(self, guild: discord.Guild):
+        """Initialise the discord audio sink as well as setting up handlers and output file."""
         super().__init__()
 
         guild_path: str = "./user_data/" + str(guild.id) + "/"
@@ -31,6 +32,11 @@ class SpeechRecognisingSink(discord.AudioSink):
         self.guild_path = guild_path
 
     def write(self, data: discord.reader.VoiceData):
+        """Analyse and convert received audio data.
+
+        If the audio data is silence: run UserHandler received_silence until termination.
+        If the audio data is not silence: add to UserHandler buffer.
+        Create member user_handlers if they don't exist and ignore the bot itself."""
         # loop: asyncio.AbstractEventLoop
         # try:
         #     loop = asyncio.get_event_loop()
