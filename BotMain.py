@@ -7,7 +7,7 @@ import speech_recognition as sr
 from Constants import Constants
 from SpeechRecognisingSink import SpeechRecognisingSink
 from NaughtyList import NaughtyList
-from Swears import swears
+from Swears import Swears
 
 
 def better_round(value: float, decimals: int):
@@ -23,6 +23,7 @@ class BotClient(discord.Client):
         print("Initializing SR...")
         self.r = sr.Recognizer()
         NaughtyList.instance = NaughtyList()
+        Swears.instance = Swears()
         print("Connecting to discord...")
 
     async def on_ready(self):
@@ -88,7 +89,7 @@ class BotClient(discord.Client):
         swear_count = 0
         for word in content.split(" "):
             key = word.lower().strip("!?.,")
-            if key in swears:
+            if key in Swears.instance.get_swear_words():
                 swear_count += 1
         # endfor
 
