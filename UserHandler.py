@@ -3,7 +3,7 @@ import wave
 import time
 import os
 import speech_recognition as sr
-from Swears import swears
+from Swears import Swears
 from NaughtyList import NaughtyList
 from Constants import Constants
 
@@ -58,10 +58,11 @@ class UserHandler:
 
                 result = ""
                 swear_count = 0
+                swears: Swears = Swears.instance
                 for word in response_sentence.split(" "):
                     key = word.lower()
-                    if key in swears:
-                        result += "**" + swears[key] + "**" + " "
+                    if key in swears.get_swear_words():
+                        result += "**" + swears.get_equivalent(key) + "**" + " "
                         swear_count += 1
                     elif "*" in key:
                         result += key.replace("*", "\\*") + " "
