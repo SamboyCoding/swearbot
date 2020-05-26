@@ -1,7 +1,6 @@
 import sqlite3
 from typing import List, Tuple
 
-
 swears = {
     # Google do be making up words though
     "motherfuker": "motherfucker",
@@ -66,7 +65,7 @@ class Swears:
         if len(results) < 1:
             print("Database empty! Updating with current swears...")
             for swear_word, equivalence in swears.items():
-                self.db.execute("INSERT INTO swear_words (?, ?)", [swear_word, equivalence])
+                self.db.execute("INSERT INTO swear_words(id, equivalence) VALUES (?, ?);", [swear_word, equivalence])
             self.db.commit()
             print("Database updated!")
 
@@ -74,7 +73,7 @@ class Swears:
 
     def add_swear_word(self, swear_word: str, equivalence: str):
         """Add a new swear word and its equivalent spelling to the database"""
-        self.db.execute("INSERT INTO swear_words (?, ?)", [swear_word, equivalence])
+        self.db.execute("INSERT INTO swear_words(id, equivalence) VALUES (?, ?)", [swear_word, equivalence])
         self.db.commit()
 
     def get_swear_words(self) -> List[str]:
