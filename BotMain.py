@@ -93,11 +93,11 @@ class BotClient(discord.Client):
                 swear_word: str = contents[1]
                 equivalence: str = contents[2]
                 Swears.instance.add_swear_word(swear_word, equivalence)
-                await message.channel.send("Added", swear_word, " to the database. Don't try to be sneaky.")
+                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
             elif len(contents) == 2:
                 swear_word: str = contents[1]
                 Swears.instance.add_swear_word(swear_word, swear_word)
-                await message.channel.send("Added", swear_word, " to the database. Don't try to be sneaky.")
+                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
 
         swear_count = 0
         for word in content.split(" "):
