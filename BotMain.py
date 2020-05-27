@@ -85,6 +85,19 @@ class BotClient(discord.Client):
                 NaughtyList.instance.set_user_score(target, new)
                 await message.channel.send(
                     "Bumped " + target.mention + "'s score from " + str(initial) + " to " + str(new) + ". Tut-tut.")
+        elif content.startswith("--addswearword") and len(
+                content.split(" ")) > 1 and (message.author.id == 102450956045668352 or
+                                             message.author.id == 562295765263712262):
+            contents = content.split(" ")
+            if len(contents) == 3:
+                swear_word: str = contents[1]
+                equivalence: str = contents[2]
+                Swears.instance.add_swear_word(swear_word, equivalence)
+                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
+            elif len(contents) == 2:
+                swear_word: str = contents[1]
+                Swears.instance.add_swear_word(swear_word, swear_word)
+                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
 
         swear_count = 0
         for word in content.split(" "):
