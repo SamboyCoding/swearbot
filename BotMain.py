@@ -89,15 +89,18 @@ class BotClient(discord.Client):
                 content.split(" ")) > 1 and (message.author.id == 102450956045668352 or
                                              message.author.id == 562295765263712262):
             contents = content.split(" ")
-            if len(contents) == 3:
-                swear_word: str = contents[1]
-                equivalence: str = contents[2]
-                Swears.instance.add_swear_word(swear_word, equivalence)
-                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
-            elif len(contents) == 2:
-                swear_word: str = contents[1]
-                Swears.instance.add_swear_word(swear_word, swear_word)
-                await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
+            if contents[1] not in Swears.instance.get_swear_words():
+                if len(contents) == 3:
+                    swear_word: str = contents[1]
+                    equivalence: str = contents[2]
+                    Swears.instance.add_swear_word(swear_word, equivalence)
+                    await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
+                elif len(contents) == 2:
+                    swear_word: str = contents[1]
+                    Swears.instance.add_swear_word(swear_word, swear_word)
+                    await message.channel.send("Added " + swear_word + " to the database. Don't try to be sneaky.")
+            else:
+                await message.channel.send(contents[1] + " is already in the database!")
 
         swear_count = 0
         for word in content.split(" "):
